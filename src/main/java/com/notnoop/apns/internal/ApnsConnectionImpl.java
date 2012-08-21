@@ -180,6 +180,8 @@ public class ApnsConnectionImpl implements ApnsConnection {
                 if (attempts >= RETRIES) {
                     logger.error("Couldn't send message " + m, e);
                     delegate.messageSendFailed(m, e);
+                    Utilities.close(socket);
+                    socket = null;
                     Utilities.wrapAndThrowAsRuntimeException(e);
                 }
                 logger.warn("Failed to send message " + m + "... trying again", e);
